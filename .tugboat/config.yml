@@ -25,17 +25,19 @@ services:
 
       # Commands that set up the basic preview infrastructure
       init:
+        # Add in extra PHP settings. Note the file renaming.
+        - cp "${TUGBOAT_ROOT}/.tugboat/php.ini"  /usr/local/etc/php/conf.d/backdrop-php.ini
 
         # Install prerequisite packages
         - apt-get update
         - apt-get install -y mysql-client
-        - docker-php-ext-install opcache
-        - a2enmode headers rewrite
+        - docker-php-ext-install opcache zip
+        - a2enmod rewrite expires headers
 
         # Link the document root to the expected path. Tugboat uses /docroot
         # by default. So, if Drupal is located at any other path in your git
         # repository, change that here. This example links /web to the docroot
-        - ln -snf . "${DOCROOT}"
+        - ln -snf "${TUGBOAT_ROOT}" "${DOCROOT}"
 
       # Commands that import files, databases,  or other assets. When an
       # existing preview is refreshed, the build workflow starts here,
@@ -47,14 +49,17 @@ services:
         - cp "${TUGBOAT_ROOT}/.tugboat/settings.local.php" "${DOCROOT}/settings.local.php"
 
         # Generate a unique hash_salt to secure the site
-        - echo "\$settings['hash_salt'] = '$(openssl rand -hex 32)';\n" >> "${DOCROOT}/settings.local.php"
+        - echo "\$settings['hash_salt'] = '$(openssl rand -hex 32)';" >> "${DOCROOT}/settings.local.php"
 
         # Create and set the config directory.
-        - CONFIG_DIR_HASH=$(openssl rand -hex 10)
-        - mkdir files/config_$CONFIG_DIR_HASH/active
-        - mkdir files/config_$CONFIG_DIR_HASH/staging
-        - echo "\$config_directories['active'] = 'files/config_$CONFIG_DIR_HASH/active';\n" >> "${DOCROOT}/settings.local.php"
-        - echo "\$config_directories['staging'] = 'files/config_$CONFIG_DIR_HASH/staging';\n" >> "${DOCROOT}/settings.local.php"
+        - mkdir "${DOCROOT}/files/config_$TUGBOAT_PREVIEW_ID"
+        - mkdir "${DOCROOT}/files/config_$TUGBOAT_PREVIEW_ID/active"
+        - mkdir "${DOCROOT}/files/config_$TUGBOAT_PREVIEW_ID/staging"
+        - echo "\$config_directories['active'] = 'files/config_$TUGBOAT_PREVIEW_ID/active';" >> "${DOCROOT}/settings.local.php"
+        - echo "\$config_directories['staging'] = 'files/config_$TUGBOAT_PREVIEW_ID/staging';" >> "${DOCROOT}/settings.local.php"
+
+        # Make the files directory writable.
+        - chown -R www-data:www-data "${DOCROOT}/files"
 
         # Copy the files directory from an external server. The public
         # SSH key found in the Tugboat Repository configuration must be
