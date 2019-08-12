@@ -87,6 +87,8 @@ services:
     # A set of commands to run while building this service
     commands:
       init:
+        # Configure MySQL for UTF8-MB4: https://api.backdropcms.org/database-configuration
+        - printf "[mysqld]\ninnodb_large_prefix=true\ninnodb_file_format=barracuda\ninnodb_file_per_table=true\n" >> /etc/mysql/conf.d/utf8mb.conf
         - mysql -e "CREATE DATABASE backdrop; GRANT ALL PRIVILEGES ON backdrop.* TO 'tugboat'@'%';"
 
       # Commands that import files, databases,  or other assets. When an
