@@ -117,7 +117,7 @@ $settings['hash_salt'] = '';
  * @see backdrop_check_trusted_hosts()
  * @see system_requirements()
  */
-// $settings['trusted_host_patterns'] = array('^www\.example\.com$');
+$settings['trusted_host_patterns'] = FALSE;
 
 /**
  * Base URL (optional).
