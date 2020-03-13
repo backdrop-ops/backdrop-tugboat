@@ -68,7 +68,7 @@ services:
         - find "${DOCROOT}" -type f -exec chmod 0664 {} \;
 
         # Run the install process.
-        - cd ${DOCROOT} && ./core/scripts/install.sh
+        - cd ${DOCROOT} && ./core/scripts/install.sh --db-url=mysql://tugboat:tugboat@mysql/backdrop
 
       # Commands that build the site. This is where you would add things
       # like feature reverts or any other drush commands required to
