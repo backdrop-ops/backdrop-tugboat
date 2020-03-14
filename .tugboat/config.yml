@@ -69,6 +69,7 @@ services:
 
         # Install Backdrop and return admin user login details.
         - cd ${DOCROOT} && ./core/scripts/install.sh --db-url=mysql://tugboat:tugboat@mysql/backdrop --account-pass=password
+        - cd ${DOCROOT} && ./.tugboat/auto-login.sh
 
       # Commands that build the site. This is where you would add things
       # like feature reverts or any other drush commands required to
