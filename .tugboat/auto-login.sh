@@ -12,4 +12,4 @@ backdrop_bootstrap(BACKDROP_BOOTSTRAP_FULL);
 // Login as user 1.
 global $user;
 $user = user_load(1);
-user_login_finalize();
+print user_pass_reset_url($user);
