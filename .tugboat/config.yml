@@ -69,7 +69,7 @@ services:
 
         # Install Backdrop and return admin user login details.
         - cd ${DOCROOT} && ./core/scripts/install.sh --db-url=mysql://tugboat:tugboat@mysql/backdrop --account-pass=password
-        - cd ${DOCROOT} && ./.tugboat/auto-login.sh
+        # - cd ${DOCROOT} && ./.tugboat/auto-login.sh
 
       # Commands that build the site. This is where you would add things
       # like feature reverts or any other drush commands required to
@@ -78,8 +78,10 @@ services:
       # and update steps, because the results of those are inherited
       # from the base preview.
       build:
-        #- drush -r "${DOCROOT}" cache-rebuild
-        #- drush -r "${DOCROOT}" updb -y
+
+        # Install Backdrop and return admin user login details.
+        # - cd ${DOCROOT} && ./core/scripts/install.sh --db-url=mysql://tugboat:tugboat@mysql/backdrop --account-pass=password
+        - cd ${DOCROOT} && ./.tugboat/auto-login.sh
 
   # What to call the service hosting MySQL. This name also acts as the
   # hostname to access the service by from the php service.
