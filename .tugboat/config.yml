@@ -57,21 +57,19 @@ services:
         - mkdir "${TUGBOAT_ROOT}/files/config_$TUGBOAT_PREVIEW_ID/staging"
         - echo "\$config_directories['active'] = 'files/config_$TUGBOAT_PREVIEW_ID/active';" >> "${TUGBOAT_ROOT}/settings.local.php"
         - echo "\$config_directories['staging'] = 'files/config_$TUGBOAT_PREVIEW_ID/staging';" >> "${TUGBOAT_ROOT}/settings.local.php"
-        - ls -la "${TUGBOAT_ROOT}/files/config_$TUGBOAT_PREVIEW_ID"
-        - ls -la "${TUGBOAT_ROOT}/files/config_$TUGBOAT_PREVIEW_ID/active"
 
         # For full install capabilities (self-updating, module installs), make
         # the entire installation web-writable.
         - chown -R www-data:www-data "${TUGBOAT_ROOT}"
         - find "${TUGBOAT_ROOT}/files" "${TUGBOAT_ROOT}/layouts" "${TUGBOAT_ROOT}/modules" "${TUGBOAT_ROOT}/themes" -type d -exec chmod 2775 {} \;
         - find "${TUGBOAT_ROOT}/files" "${TUGBOAT_ROOT}/layouts" "${TUGBOAT_ROOT}/modules" "${TUGBOAT_ROOT}/themes" -type f -exec chmod 0664 {} \;
-        - ls -la "${TUGBOAT_ROOT}/files/config_$TUGBOAT_PREVIEW_ID"
-        - ls -la "${TUGBOAT_ROOT}/files/config_$TUGBOAT_PREVIEW_ID/active"
 
         # Install Backdrop.
         - cd ${TUGBOAT_ROOT} && ./core/scripts/install.sh --db-url=mysql://tugboat:tugboat@mysql/backdrop --account-pass=password
-        - ls -la "${TUGBOAT_ROOT}/files/config_$TUGBOAT_PREVIEW_ID"
-        - ls -la "${TUGBOAT_ROOT}/files/config_$TUGBOAT_PREVIEW_ID/active"
+
+        # Fix config permissions after install.
+        - chown -R www-data:www-data "${TUGBOAT_ROOT}/files/config_$TUGBOAT_PREVIEW_ID/active"
+        - find "${TUGBOAT_ROOT}/files/config_$TUGBOAT_PREVIEW_ID/active" -type f -exec chmod 0664 {} \;
 
       # Commands that build the site. This is where you would add things
       # like feature reverts or any other drush commands required to
