@@ -63,6 +63,7 @@ services:
         - chown -R www-data:www-data "${TUGBOAT_ROOT}"
         - find "${TUGBOAT_ROOT}" -type d -exec chmod 2775 {} \;
         - find "${TUGBOAT_ROOT}" -type f -exec chmod 0664 {} \;
+        - find "${TUGBOAT_ROOT}/core/scripts" -type f -exec chmod u+x,g+x {} \;
 
         # Install Backdrop.
         - cd ${TUGBOAT_ROOT} && ./core/scripts/install.sh --db-url=mysql://tugboat:tugboat@mysql/backdrop --account-pass=password
