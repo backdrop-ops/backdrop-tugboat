@@ -57,6 +57,8 @@ services:
         - mkdir "${TUGBOAT_ROOT}/files/config_$TUGBOAT_PREVIEW_ID/staging"
         - echo "\$config_directories['active'] = 'files/config_$TUGBOAT_PREVIEW_ID/active';" >> "${TUGBOAT_ROOT}/settings.local.php"
         - echo "\$config_directories['staging'] = 'files/config_$TUGBOAT_PREVIEW_ID/staging';" >> "${TUGBOAT_ROOT}/settings.local.php"
+        - ls -la "${TUGBOAT_ROOT}/files/config_$TUGBOAT_PREVIEW_ID"
+        - ls -la "${TUGBOAT_ROOT}/files/config_$TUGBOAT_PREVIEW_ID/active"
 
         # For full install capabilities (self-updating, module installs), make
         # the entire installation web-writable.
