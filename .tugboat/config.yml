@@ -65,9 +65,13 @@ services:
         - chown -R www-data:www-data "${TUGBOAT_ROOT}"
         - find "${TUGBOAT_ROOT}/files" "${TUGBOAT_ROOT}/layouts" "${TUGBOAT_ROOT}/modules" "${TUGBOAT_ROOT}/themes" -type d -exec chmod 2775 {} \;
         - find "${TUGBOAT_ROOT}/files" "${TUGBOAT_ROOT}/layouts" "${TUGBOAT_ROOT}/modules" "${TUGBOAT_ROOT}/themes" -type f -exec chmod 0664 {} \;
+        - ls -la "${TUGBOAT_ROOT}/files/config_$TUGBOAT_PREVIEW_ID"
+        - ls -la "${TUGBOAT_ROOT}/files/config_$TUGBOAT_PREVIEW_ID/active"
 
         # Install Backdrop.
         - cd ${TUGBOAT_ROOT} && ./core/scripts/install.sh --db-url=mysql://tugboat:tugboat@mysql/backdrop --account-pass=password
+        - ls -la "${TUGBOAT_ROOT}/files/config_$TUGBOAT_PREVIEW_ID"
+        - ls -la "${TUGBOAT_ROOT}/files/config_$TUGBOAT_PREVIEW_ID/active"
 
       # Commands that build the site. This is where you would add things
       # like feature reverts or any other drush commands required to
