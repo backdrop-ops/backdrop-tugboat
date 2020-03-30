@@ -1,5 +1,0 @@
-[CKEditorTestCase]
-name = CKEditor
-description = Check the functionality of CKEditor module.
-group = CKEditor
-file = ckeditor.test
