@@ -32,6 +32,7 @@ services:
         - chown -R www-data:www-data $TUGBOAT_ROOT/www
         - cd $TUGBOAT_ROOT/www && find files layouts modules themes -type d -exec chmod 2775 {} \;
         - cd $TUGBOAT_ROOT/www && find files layouts modules themes -type f -exec chmod 0664 {} \;
+        - chmod a+x $TUGBOAT_ROOT/www/core/scripts/install.sh
       build:
         # Clear out active config (needed when rebuilding/reinstalling).
         - find $TUGBOAT_ROOT/www/files/config/active -mindepth 1 -delete
